@@ -1,4 +1,3 @@
-
 import time
 import numpy as np
 import torch
@@ -13,12 +12,11 @@ from evaluation import evaluate_model
 
 def get_optimizer(strategy, model, config):
     if strategy == "constant":
-        optimizer = optim.SGD(model.parameters(), lr=config.base_lr,momentum=0.0)
+        optimizer = optim.SGD(model.parameters(), lr=config.base_lr, momentum=0.0)
         scheduler = None
 
     elif strategy == "decay":
-        optimizer = optim.SGD(model.parameters(), lr=config.base_lr,momentum=0.0)
-
+        optimizer = optim.SGD(model.parameters(), lr=config.base_lr, momentum=0.0)
         scheduler = optim.lr_scheduler.StepLR(
             optimizer,
             step_size=10,
@@ -31,7 +29,6 @@ def get_optimizer(strategy, model, config):
             lr=config.base_lr,
             momentum=config.momentum
         )
-
         scheduler = None
 
     elif strategy == "armijo":
@@ -52,18 +49,16 @@ def train_model(
     test_loader,
     logger,
 ):
+    # FIX: added torch.cuda.manual_seed_all for full GPU reproducibility
     torch.manual_seed(config.seed)
+    torch.cuda.manual_seed_all(config.seed)
     np.random.seed(config.seed)
 
     model = model.to(config.device)
 
     loss_fn = nn.CrossEntropyLoss()
 
-    optimizer, scheduler = get_optimizer(
-        strategy,
-        model,
-        config
-    )
+    optimizer, scheduler = get_optimizer(strategy, model, config)
 
     metrics = {
         "train_loss": [],
@@ -99,18 +94,26 @@ def train_model(
 
                 def closure():
                     optimizer.zero_grad()
-
                     outputs = model(images)
-
                     loss = loss_fn(outputs, labels)
-
                     return loss
 
                 loss = optimizer.step(closure=closure)
 
+                # FIX: guard against None return from sls.step()
+                loss_value = loss.item() if loss is not None else 0.0
+                running_loss += loss_value
+
+                # FIX: switch to eval() mode before recomputing outputs,
+                # then restore train() mode — prevents Dropout/BatchNorm
+                # from behaving incorrectly during accuracy tracking
+                model.eval()
                 with torch.no_grad():
                     outputs = model(images)
+                model.train()
 
+                # FIX: sls stores step_size at the optimizer level, not
+                # inside optimizer.state (which is keyed by param tensors)
                 current_lr = optimizer.state.get("step_size", 0.0)
 
             else:
@@ -124,12 +127,11 @@ def train_model(
 
                 optimizer.step()
 
+                running_loss += loss.item()
+
                 current_lr = optimizer.param_groups[0]["lr"]
 
-            running_loss += loss.item()
-
             preds = outputs.argmax(dim=1)
-
             correct += (preds == labels).sum().item()
             total += labels.size(0)
 
@@ -137,7 +139,6 @@ def train_model(
             scheduler.step()
 
         train_loss = running_loss / len(train_loader)
-
         train_acc = 100.0 * correct / total
 
         test_acc, test_loss, cm = evaluate_model(
