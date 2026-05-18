@@ -5,10 +5,10 @@ import torch
 
 @dataclass
 class TrainingConfig:
-    experiment: int = 10
+    experiment: int = 11
     batch_size: int = 64
     test_batch_size: int = 256
-    epochs: int = 30
+    epochs: int = 1
     seed: int = 42
 
     device: str = (

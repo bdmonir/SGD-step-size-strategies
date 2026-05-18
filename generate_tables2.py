@@ -62,7 +62,14 @@ def generate_table_figures(data, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     
     models = ["MLP", "DeepMLP", "DeepMLPBN", "CNN"]
-    strategies = ["constant", "momentum", "decay", "armijo"]
+    strategies = [
+        "constant",
+        "momentum",
+        "StepLR",
+        "ExponentialLR",
+        "CosineAnnealingLR",
+        "armijo",
+    ]
     
     all_summaries = []
     

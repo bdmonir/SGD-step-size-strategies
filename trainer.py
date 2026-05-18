@@ -78,6 +78,7 @@ def train_model(
         "train_acc": [],
         "test_loss": [],
         "test_acc": [],
+        "generalization_gap": [],
         "times_per_epoch": [],
         "learning_rates": [],
         "confusion_matrices": [],
@@ -151,9 +152,14 @@ def train_model(
         if scheduler is not None:
             scheduler.step()
 
-        train_loss = running_loss / len(train_loader)
-        train_acc = 100.0 * correct / total
-
+        epoch_time = time.time() - start_time
+        
+        train_acc, train_loss, cm = evaluate_model(
+            model,
+            train_loader,
+            loss_fn,
+            config.device
+        )
         test_acc, test_loss, cm = evaluate_model(
             model,
             test_loader,
@@ -161,12 +167,13 @@ def train_model(
             config.device
         )
 
-        epoch_time = time.time() - start_time
+        
 
         metrics["train_loss"].append(train_loss)
         metrics["train_acc"].append(train_acc)
         metrics["test_loss"].append(test_loss)
         metrics["test_acc"].append(test_acc)
+        metrics["generalization_gap"].append(train_acc - test_acc)
         metrics["times_per_epoch"].append(epoch_time)
         metrics["learning_rates"].append(current_lr)
         metrics["confusion_matrices"].append(cm)

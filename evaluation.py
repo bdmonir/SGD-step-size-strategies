@@ -30,7 +30,8 @@ def evaluate_model(model, loader, loss_fn, device):
     all_preds = np.array(all_preds)
     all_labels = np.array(all_labels)
 
-    accuracy = 100.0 * (all_preds == all_labels).mean()
+    #accuracy = 100.0 * (all_preds == all_labels).mean()
+    accuracy = np.round(100.0000 * (all_preds == all_labels).mean(), 4)
 
     cm = confusion_matrix(all_labels, all_preds)
 
