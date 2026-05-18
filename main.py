@@ -26,7 +26,9 @@ def main():
     strategies = [
         "constant",
         "momentum",
-        "decay",
+        "StepLR",
+        "ExponentialLR",
+        "CosineAnnealingLR",
         "armijo",
     ]
 

@@ -15,14 +15,6 @@ def get_optimizer(strategy, model, config):
         optimizer = optim.SGD(model.parameters(), lr=config.base_lr, momentum=0.0)
         scheduler = None
 
-    elif strategy == "decay":
-        optimizer = optim.SGD(model.parameters(), lr=config.base_lr, momentum=0.0)
-        scheduler = optim.lr_scheduler.StepLR(
-            optimizer,
-            step_size=10,
-            gamma=0.5
-        )
-
     elif strategy == "momentum":
         optimizer = optim.SGD(
             model.parameters(),
@@ -30,6 +22,27 @@ def get_optimizer(strategy, model, config):
             momentum=config.momentum
         )
         scheduler = None
+
+    elif strategy == "StepLR":
+        optimizer = optim.SGD(model.parameters(), lr=config.base_lr, momentum=config.momentum)
+        scheduler = optim.lr_scheduler.StepLR(
+            optimizer,
+            step_size=10,
+            gamma=0.1
+        )
+    elif strategy == "ExponentialLR":
+        optimizer = optim.SGD(model.parameters(), lr=config.base_lr, momentum=config.momentum)
+        scheduler = optim.lr_scheduler.ExponentialLR(
+            optimizer,
+            gamma=0.95
+        )
+    elif strategy == "CosineAnnealingLR":
+        optimizer = optim.SGD(model.parameters(), lr=config.base_lr, momentum=config.momentum)
+        scheduler = optim.lr_scheduler.CosineAnnealingLR(
+            optimizer,
+            T_max=config.epochs,
+            eta_min=1e-6
+        )
 
     elif strategy == "armijo":
         optimizer = sls.Sls(model.parameters())

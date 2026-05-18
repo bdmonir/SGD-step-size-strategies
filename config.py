@@ -5,7 +5,7 @@ import torch
 
 @dataclass
 class TrainingConfig:
-    experiment: int = 4
+    experiment: int = 10
     batch_size: int = 64
     test_batch_size: int = 256
     epochs: int = 30
