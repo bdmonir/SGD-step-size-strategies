@@ -1,0 +1,71 @@
+Using device: mps
+======================================================================
+Training model: MLP
+======================================================================
+Total trainable parameters: 795,010
+Starting strategy: constant
+constant | Epoch 1 | Train Loss: 0.3106 | Train Acc: 91.1967% | Test Loss: 0.2952 | Test Acc: 91.6800% | F1: 0.9158 | GradNorm: 2.9770 | UpdateNorm: 0.0439 | LR: 0.010000 | Epoch Time: 5.92s
+Starting strategy: momentum
+momentum | Epoch 1 | Train Loss: 0.1155 | Train Acc: 96.6550% | Test Loss: 0.1209 | Test Acc: 96.4000% | F1: 0.9638 | GradNorm: 1.7475 | UpdateNorm: 0.0403 | LR: 0.010000 | Epoch Time: 6.28s
+Starting strategy: StepLR
+StepLR | Epoch 1 | Train Loss: 0.1155 | Train Acc: 96.6550% | Test Loss: 0.1209 | Test Acc: 96.4000% | F1: 0.9638 | GradNorm: 1.7475 | UpdateNorm: 0.0403 | LR: 0.010000 | Epoch Time: 6.33s
+Starting strategy: ExponentialLR
+ExponentialLR | Epoch 1 | Train Loss: 0.1155 | Train Acc: 96.6550% | Test Loss: 0.1209 | Test Acc: 96.4000% | F1: 0.9638 | GradNorm: 1.7475 | UpdateNorm: 0.0403 | LR: 0.009500 | Epoch Time: 7.02s
+Starting strategy: CosineAnnealingLR
+CosineAnnealingLR | Epoch 1 | Train Loss: 0.1155 | Train Acc: 96.6550% | Test Loss: 0.1209 | Test Acc: 96.4000% | F1: 0.9638 | GradNorm: 1.7475 | UpdateNorm: 0.0403 | LR: 0.000001 | Epoch Time: 6.92s
+Starting strategy: armijo
+armijo | Epoch 1 | Train Loss: 0.1045 | Train Acc: 96.7400% | Test Loss: 0.1264 | Test Acc: 96.0600% | F1: 0.9603 | GradNorm: 0.0000 | UpdateNorm: 0.7560 | LR: 0.325319 | Epoch Time: 7.86s
+Plots generated for MLP
+======================================================================
+Training model: DeepMLP
+======================================================================
+Total trainable parameters: 4,364,554
+Starting strategy: constant
+constant | Epoch 1 | Train Loss: 0.4210 | Train Acc: 87.9017% | Test Loss: 0.4029 | Test Acc: 88.2300% | F1: 0.8801 | GradNorm: 4.4402 | UpdateNorm: 0.1028 | LR: 0.010000 | Epoch Time: 12.77s
+Starting strategy: momentum
+momentum | Epoch 1 | Train Loss: 0.1032 | Train Acc: 96.9717% | Test Loss: 0.1134 | Test Acc: 96.5600% | F1: 0.9653 | GradNorm: 2.4634 | UpdateNorm: 0.0803 | LR: 0.010000 | Epoch Time: 13.35s
+Starting strategy: StepLR
+StepLR | Epoch 1 | Train Loss: 0.1032 | Train Acc: 96.9717% | Test Loss: 0.1134 | Test Acc: 96.5600% | F1: 0.9653 | GradNorm: 2.4634 | UpdateNorm: 0.0803 | LR: 0.010000 | Epoch Time: 13.95s
+Starting strategy: ExponentialLR
+ExponentialLR | Epoch 1 | Train Loss: 0.1032 | Train Acc: 96.9717% | Test Loss: 0.1134 | Test Acc: 96.5600% | F1: 0.9653 | GradNorm: 2.4634 | UpdateNorm: 0.0803 | LR: 0.009500 | Epoch Time: 14.19s
+Starting strategy: CosineAnnealingLR
+CosineAnnealingLR | Epoch 1 | Train Loss: 0.1032 | Train Acc: 96.9717% | Test Loss: 0.1134 | Test Acc: 96.5600% | F1: 0.9653 | GradNorm: 2.4634 | UpdateNorm: 0.0803 | LR: 0.000001 | Epoch Time: 13.51s
+Starting strategy: armijo
+armijo | Epoch 1 | Train Loss: 0.1525 | Train Acc: 95.4083% | Test Loss: 0.1637 | Test Acc: 94.9900% | F1: 0.9496 | GradNorm: 0.0000 | UpdateNorm: 0.5976 | LR: 0.102089 | Epoch Time: 15.30s
+Plots generated for DeepMLP
+======================================================================
+Training model: DeepMLPBN
+======================================================================
+Total trainable parameters: 4,372,234
+Starting strategy: constant
+constant | Epoch 1 | Train Loss: 0.1565 | Train Acc: 95.2833% | Test Loss: 0.1555 | Test Acc: 95.1100% | F1: 0.9506 | GradNorm: 6.6969 | UpdateNorm: 0.1391 | LR: 0.010000 | Epoch Time: 16.43s
+Starting strategy: momentum
+momentum | Epoch 1 | Train Loss: 0.0805 | Train Acc: 97.4917% | Test Loss: 0.0970 | Test Acc: 96.9000% | F1: 0.9687 | GradNorm: 3.6024 | UpdateNorm: 0.1328 | LR: 0.010000 | Epoch Time: 15.95s
+Starting strategy: StepLR
+StepLR | Epoch 1 | Train Loss: 0.0805 | Train Acc: 97.4917% | Test Loss: 0.0970 | Test Acc: 96.9000% | F1: 0.9687 | GradNorm: 3.6024 | UpdateNorm: 0.1328 | LR: 0.010000 | Epoch Time: 17.17s
+Starting strategy: ExponentialLR
+ExponentialLR | Epoch 1 | Train Loss: 0.0805 | Train Acc: 97.4917% | Test Loss: 0.0970 | Test Acc: 96.9000% | F1: 0.9687 | GradNorm: 3.6024 | UpdateNorm: 0.1328 | LR: 0.009500 | Epoch Time: 12.16s
+Starting strategy: CosineAnnealingLR
+CosineAnnealingLR | Epoch 1 | Train Loss: 0.0805 | Train Acc: 97.4917% | Test Loss: 0.0970 | Test Acc: 96.9000% | F1: 0.9687 | GradNorm: 3.6024 | UpdateNorm: 0.1328 | LR: 0.000001 | Epoch Time: 13.47s
+Starting strategy: armijo
+armijo | Epoch 1 | Train Loss: 0.1008 | Train Acc: 96.9350% | Test Loss: 0.1164 | Test Acc: 96.2900% | F1: 0.9627 | GradNorm: 0.0000 | UpdateNorm: 1.2164 | LR: 0.401629 | Epoch Time: 16.26s
+Plots generated for DeepMLPBN
+======================================================================
+Training model: CNN
+======================================================================
+Total trainable parameters: 391,370
+Starting strategy: constant
+constant | Epoch 1 | Train Loss: 0.0841 | Train Acc: 98.0317% | Test Loss: 0.0759 | Test Acc: 98.0500% | F1: 0.9804 | GradNorm: 3.9082 | UpdateNorm: 0.0824 | LR: 0.010000 | Epoch Time: 12.59s
+Starting strategy: momentum
+momentum | Epoch 1 | Train Loss: 0.0426 | Train Acc: 98.6783% | Test Loss: 0.0415 | Test Acc: 98.5500% | F1: 0.9855 | GradNorm: 1.7322 | UpdateNorm: 0.0791 | LR: 0.010000 | Epoch Time: 15.27s
+Starting strategy: StepLR
+StepLR | Epoch 1 | Train Loss: 0.0426 | Train Acc: 98.6783% | Test Loss: 0.0415 | Test Acc: 98.5500% | F1: 0.9855 | GradNorm: 1.7322 | UpdateNorm: 0.0791 | LR: 0.010000 | Epoch Time: 14.50s
+Starting strategy: ExponentialLR
+ExponentialLR | Epoch 1 | Train Loss: 0.0426 | Train Acc: 98.6783% | Test Loss: 0.0415 | Test Acc: 98.5500% | F1: 0.9855 | GradNorm: 1.7322 | UpdateNorm: 0.0791 | LR: 0.009500 | Epoch Time: 14.46s
+Starting strategy: CosineAnnealingLR
+CosineAnnealingLR | Epoch 1 | Train Loss: 0.0426 | Train Acc: 98.6783% | Test Loss: 0.0415 | Test Acc: 98.5500% | F1: 0.9855 | GradNorm: 1.7322 | UpdateNorm: 0.0791 | LR: 0.000001 | Epoch Time: 14.63s
+Starting strategy: armijo
+armijo | Epoch 1 | Train Loss: 0.0263 | Train Acc: 99.1783% | Test Loss: 0.0288 | Test Acc: 99.0600% | F1: 0.9905 | GradNorm: 0.0000 | UpdateNorm: 1.6569 | LR: 0.550931 | Epoch Time: 15.04s
+Plots generated for CNN
+Results saved to: logs/mnist_full_experiment_12.json
+Training completed successfully.
