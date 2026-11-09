@@ -37,7 +37,7 @@ Usage:
     python chapter04_reports.py mnist_full_experiment_13.json \
         --output-dir chapter04_reports > chapter04_tables.tex
 
-        python chapter04_reports.py logs/mnist_full_experiment_13.json  --output-dir chapter04_reports3 > chapter04_tables3.tex
+        python chapter04_reports.py logs/mnist_full_experiment_13.json  --output-dir chapter04_reports5 > chapter04_tables5.tex
 Dependencies:
     pip install numpy matplotlib
 """
@@ -241,55 +241,99 @@ def print_table(
     print()
 
 
-def generate_training_loss(data: Mapping[str, Any], output_dir: Path, dpi: int) -> None:
-    fig, ax = plt.subplots(figsize=(9, 5.5))
-    plotted = False
-    for architecture_key, architecture_data in architectures(data):
+def _generate_loss_matrix(
+    data: Mapping[str, Any],
+    output_dir: Path,
+    dpi: int,
+    metric_key: str,
+    ylabel: str,
+    title: str,
+    output_name: str,
+) -> None:
+    architecture_items = list(architectures(data))
+
+    if not architecture_items:
+        return
+
+    fig, axes = plt.subplots(
+        2,
+        2,
+        figsize=(12, 9),
+        sharex=True,
+        sharey=True,
+    )
+    axes = axes.flatten()
+    plotted_any = False
+
+    for ax_index, ax in enumerate(axes):
+        if ax_index >= len(architecture_items):
+            ax.axis("off")
+            continue
+
+        architecture_key, architecture_data = architecture_items[ax_index]
+        architecture_plotted = False
+
         for strategy_key, strategy_data in strategies(architecture_data):
-            values = numeric_series(strategy_data.get("train_loss"))
+            values = numeric_series(strategy_data.get(metric_key))
             if not values:
                 continue
+
+            epochs = np.arange(1, len(values) + 1)
             ax.plot(
-                np.arange(1, len(values) + 1),
+                epochs,
                 values,
-                label=f"{architecture_name(architecture_key)} — {strategy_name(strategy_key)}",
+                label=strategy_name(strategy_key),
+                linewidth=2,
             )
-            plotted = True
-    if not plotted:
+            architecture_plotted = True
+            plotted_any = True
+
+        if architecture_plotted:
+            ax.set_title(architecture_name(architecture_key), fontsize=11)
+            ax.set_xlabel("Epoch")
+            ax.set_ylabel(ylabel)
+            ax.grid(True, alpha=0.25, linestyle="--")
+            ax.legend(fontsize=8)
+        else:
+            ax.axis("off")
+
+    if not plotted_any:
         plt.close(fig)
         return
-    ax.set_xlabel("Epoch")
-    ax.set_ylabel("Training loss")
-    ax.set_title("Training loss evolution")
-    ax.grid(True, alpha=0.25)
-    ax.legend(fontsize=7, ncol=2)
-    save(fig, output_dir / "training_loss.png", dpi)
+
+    fig.suptitle(title, fontsize=14, y=1.02)
+    fig.tight_layout()
+
+    save(fig, output_dir / output_name, dpi)
 
 
-def generate_validation_loss(data: Mapping[str, Any], output_dir: Path, dpi: int) -> None:
+def generate_training_loss(
+    data: Mapping[str, Any], output_dir: Path, dpi: int
+) -> None:
+    _generate_loss_matrix(
+        data=data,
+        output_dir=output_dir,
+        dpi=dpi,
+        metric_key="train_loss",
+        ylabel="Training loss",
+        title="Training Loss Evolution by Architecture",
+        output_name="training_loss.png",
+    )
+
+
+def generate_validation_loss(
+    data: Mapping[str, Any], output_dir: Path, dpi: int
+) -> None:
     # The JSON contains test_loss but no validation_loss.
-    fig, ax = plt.subplots(figsize=(9, 5.5))
-    plotted = False
-    for architecture_key, architecture_data in architectures(data):
-        for strategy_key, strategy_data in strategies(architecture_data):
-            values = numeric_series(strategy_data.get("test_loss"))
-            if not values:
-                continue
-            ax.plot(
-                np.arange(1, len(values) + 1),
-                values,
-                label=f"{architecture_name(architecture_key)} — {strategy_name(strategy_key)}",
-            )
-            plotted = True
-    if not plotted:
-        plt.close(fig)
-        return
-    ax.set_xlabel("Epoch")
-    ax.set_ylabel("Test loss")
-    ax.set_title("Test loss evolution")
-    ax.grid(True, alpha=0.25)
-    ax.legend(fontsize=7, ncol=2)
-    save(fig, output_dir / "validation_loss.png", dpi)
+    _generate_loss_matrix(
+        data=data,
+        output_dir=output_dir,
+        dpi=dpi,
+        metric_key="test_loss",
+        ylabel="Test loss",
+        title="Test Loss Evolution by Architecture",
+        output_name="validation_loss.png",
+    )
 
 
 def generate_accuracy_across_architectures(
